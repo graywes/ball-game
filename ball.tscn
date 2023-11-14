@@ -1,21 +1,41 @@
-[gd_scene load_steps=8 format=3 uid="uid://bq1krxesd686a"]
+[gd_scene load_steps=15 format=3 uid="uid://bq1krxesd686a"]
 
 [ext_resource type="Script" path="res://input.gd" id="1_lc4na"]
 [ext_resource type="Texture2D" uid="uid://dwcvke5uew4nv" path="res://New Piskel.png" id="2_yafl5"]
 [ext_resource type="Texture2D" uid="uid://b28ma6na7d8l7" path="res://New Piskel (1).png" id="3_5ddu5"]
 [ext_resource type="Script" path="res://ball.gd" id="3_krie0"]
+[ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="5_ivyn5"]
+[ext_resource type="PackedScene" uid="uid://4abkv2apft38" path="res://brick.tscn" id="6_qtx0r"]
 
 [sub_resource type="Curve2D" id="Curve2D_0amkw"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -111, 96, 0, 0, 0, 0, 111, 96)
+"points": PackedVector2Array(0, 0, 0, 0, -140, 96, 0, 0, 0, 0, 140, 96)
 }
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecocw"]
 size = Vector2(32, 7)
 
+[sub_resource type="Curve" id="Curve_1eoi3"]
+_data = [Vector2(0, 1), 0.0, -1.7327, 0, 0, Vector2(1, 0.252632), -1.54705, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_11tvh"]
+offsets = PackedFloat32Array(0, 0.622517, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.560784, 1, 1, 1, 0.180392)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7m841"]
 size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftusq"]
+size = Vector2(317, 20)
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_eyehp"]
+scenes/1/scene = ExtResource("6_qtx0r")
+
+[sub_resource type="TileSet" id="TileSet_c644g"]
+tile_size = Vector2i(32, 8)
+sources/0 = SubResource("TileSetScenesCollectionSource_eyehp")
 
 [node name="Node2D" type="Node2D"]
 
@@ -26,8 +46,8 @@ zoom = Vector2(2, 2)
 curve = SubResource("Curve2D_0amkw")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(111, 96)
-progress = 222.0
+position = Vector2(140, 96)
+progress = 280.0
 rotates = false
 loop = false
 script = ExtResource("1_lc4na")
@@ -43,12 +63,48 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ecocw")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(10, 33)
+position = Vector2(-4, -81)
 motion_mode = 1
 script = ExtResource("3_krie0")
 
 [node name="NewPiskel(1)" type="Sprite2D" parent="CharacterBody2D"]
+rotation = -0.837758
 texture = ExtResource("3_5ddu5")
+
+[node name="Trail2D" type="Line2D" parent="CharacterBody2D/NewPiskel(1)"]
+z_index = -1
+width = 6.0
+width_curve = SubResource("Curve_1eoi3")
+gradient = SubResource("Gradient_11tvh")
+joint_mode = 2
+end_cap_mode = 2
+script = ExtResource("5_ivyn5")
+length = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("RectangleShape2D_7m841")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1.5, 128)
+shape = SubResource("RectangleShape2D_ftusq")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -128)
+shape = SubResource("RectangleShape2D_ftusq")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-168, -8)
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_ftusq")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(168, -16)
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_ftusq")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_c644g")
+format = 2
+layer_0/tile_data = PackedInt32Array(65534, 0, 65536, 65535, 0, 65536, -1, 0, 65536, -2, 0, 65536, -65538, 0, 65536, -131074, 0, 65536, -196610, 0, 65536, -262146, 0, 65536, -262145, 0, 65536, -196609, 0, 65536, -131073, 0, 65536, -65537, 0, 65536, -196608, 0, 65536, -262144, 0, 65536, -131072, 0, 65536, -65536, 0, 65536, -327680, 0, 65536, 0, 0, 65536, 1, 0, 65536, -65535, 0, 65536, -65534, 0, 65536, -65533, 0, 65536, -65532, 0, 65536, 4, 0, 65536, 3, 0, 65536, 2, 0, 65536, 65533, 0, 65536, 65532, 0, 65536, 65531, 0, 65536, -5, 0, 65536, -65541, 0, 65536, -65540, 0, 65536, -65539, 0, 65536, -3, 0, 65536, -4, 0, 65536, -131077, 0, 65536, -196613, 0, 65536, -196612, 0, 65536, -131076, 0, 65536, -262149, 0, 65536, -262148, 0, 65536, -196611, 0, 65536, -131075, 0, 65536, -262147, 0, 65536, -196607, 0, 65536, -131070, 0, 65536, -131069, 0, 65536, -131071, 0, 65536, -262143, 0, 65536, -327679, 0, 65536, -327678, 0, 65536, -262142, 0, 65536, -196606, 0, 65536, -262141, 0, 65536, -327677, 0, 65536, -196605, 0, 65536, -131068, 0, 65536, -196604, 0, 65536, -262140, 0, 65536, -327676, 0, 65536)

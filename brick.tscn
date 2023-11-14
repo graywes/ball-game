@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://4abkv2apft38"]
+
+[ext_resource type="Script" path="res://brick.gd" id="1_qcdyc"]
+[ext_resource type="Texture2D" uid="uid://cvngemhbmvrmk" path="res://New Piskel (2).png" id="2_ywsoy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_83plm"]
+size = Vector2(32, 8)
+
+[node name="StaticBody2D2" type="StaticBody2D"]
+script = ExtResource("1_qcdyc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ywsoy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_83plm")
