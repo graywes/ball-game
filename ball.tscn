@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://bq1krxesd686a"]
+[gd_scene load_steps=17 format=3 uid="uid://bq1krxesd686a"]
 
 [ext_resource type="Script" path="res://input.gd" id="1_lc4na"]
+[ext_resource type="Script" path="res://shake.gd" id="1_ye3yx"]
 [ext_resource type="Texture2D" uid="uid://dwcvke5uew4nv" path="res://New Piskel.png" id="2_yafl5"]
 [ext_resource type="Texture2D" uid="uid://b28ma6na7d8l7" path="res://New Piskel (1).png" id="3_5ddu5"]
 [ext_resource type="Script" path="res://ball.gd" id="3_krie0"]
 [ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="5_ivyn5"]
 [ext_resource type="PackedScene" uid="uid://4abkv2apft38" path="res://brick.tscn" id="6_qtx0r"]
+[ext_resource type="PackedScene" uid="uid://6lij25hc3b6e" path="res://dust.tscn" id="7_hropf"]
 
 [sub_resource type="Curve2D" id="Curve2D_0amkw"]
 _data = {
@@ -41,6 +43,11 @@ sources/0 = SubResource("TileSetScenesCollectionSource_eyehp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
+script = ExtResource("1_ye3yx")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+wait_time = 0.1
+one_shot = true
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_0amkw")
@@ -63,7 +70,7 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ecocw")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(-4, -81)
+position = Vector2(9, 29)
 motion_mode = 1
 script = ExtResource("3_krie0")
 
@@ -108,3 +115,7 @@ shape = SubResource("RectangleShape2D_ftusq")
 tile_set = SubResource("TileSet_c644g")
 format = 2
 layer_0/tile_data = PackedInt32Array(65534, 0, 65536, 65535, 0, 65536, -1, 0, 65536, -2, 0, 65536, -65538, 0, 65536, -131074, 0, 65536, -196610, 0, 65536, -262146, 0, 65536, -262145, 0, 65536, -196609, 0, 65536, -131073, 0, 65536, -65537, 0, 65536, -196608, 0, 65536, -262144, 0, 65536, -131072, 0, 65536, -65536, 0, 65536, -327680, 0, 65536, 0, 0, 65536, 1, 0, 65536, -65535, 0, 65536, -65534, 0, 65536, -65533, 0, 65536, -65532, 0, 65536, 4, 0, 65536, 3, 0, 65536, 2, 0, 65536, 65533, 0, 65536, 65532, 0, 65536, 65531, 0, 65536, -5, 0, 65536, -65541, 0, 65536, -65540, 0, 65536, -65539, 0, 65536, -3, 0, 65536, -4, 0, 65536, -131077, 0, 65536, -196613, 0, 65536, -196612, 0, 65536, -131076, 0, 65536, -262149, 0, 65536, -262148, 0, 65536, -196611, 0, 65536, -131075, 0, 65536, -262147, 0, 65536, -196607, 0, 65536, -131070, 0, 65536, -131069, 0, 65536, -131071, 0, 65536, -262143, 0, 65536, -327679, 0, 65536, -327678, 0, 65536, -262142, 0, 65536, -196606, 0, 65536, -262141, 0, 65536, -327677, 0, 65536, -196605, 0, 65536, -131068, 0, 65536, -196604, 0, 65536, -262140, 0, 65536, -327676, 0, 65536)
+
+[node name="GPUParticles2D" parent="." instance=ExtResource("7_hropf")]
+
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
