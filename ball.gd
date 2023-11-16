@@ -12,7 +12,9 @@ func _physics_process(delta):
 	velocity = vel
 	var colision = move_and_collide(velocity * delta * SPEED)
 	if colision:
-		get_viewport().get_camera_2d().shake(0.5)
+		if not colision.get_collider().is_in_group("brick"):
+			get_viewport().get_camera_2d().shake(0.5)
+			print("shake")
 		print("yewa")
 		if colision.get_collider().is_class("AnimatableBody2D") and (colision.get_collider().get_parent().get_parent().position - position).y - 2 >= 0:
 			vel = velocity.bounce(colision.get_normal().rotated((colision.get_collider().get_parent().get_parent().position).angle_to(position + Vector2(0, 5)) * -3))
